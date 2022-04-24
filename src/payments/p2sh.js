@@ -7,6 +7,7 @@ const bscript = require('../script');
 const types_1 = require('../types');
 const lazy = require('./lazy');
 const bs58check = require('bs58check');
+const Buffer = require('buffer').Buffer;
 const OPS = bscript.OPS;
 function stacksEqual(a, b) {
   if (a.length !== b.length) return false;

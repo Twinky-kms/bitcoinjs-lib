@@ -1,6 +1,7 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.fastMerkleRoot = void 0;
+const Buffer = require('buffer').Buffer;
 function fastMerkleRoot(values, digestFn) {
   if (!Array.isArray(values)) throw TypeError('Expected values Array');
   if (typeof digestFn !== 'function')

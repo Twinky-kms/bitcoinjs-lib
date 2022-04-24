@@ -4,6 +4,7 @@
 // NOTE: SIGHASH byte ignored AND restricted, truncate before use
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.encode = exports.decode = exports.check = void 0;
+const Buffer = require('buffer').Buffer;
 function check(buffer) {
   if (buffer.length < 8) return false;
   if (buffer.length > 72) return false;

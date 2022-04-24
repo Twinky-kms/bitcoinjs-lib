@@ -4,6 +4,7 @@ exports.BufferReader = exports.BufferWriter = exports.cloneBuffer = exports.reve
 const types = require('./types');
 const { typeforce } = types;
 const varuint = require('varuint-bitcoin');
+const bn = require('big-integer');
 exports.varuint = varuint;
 // https://github.com/feross/buffer/blob/master/index.js#L1127
 function verifuint(value, max) {
@@ -14,17 +15,17 @@ function verifuint(value, max) {
   if (value > max) throw new Error('RangeError: value out of range');
 }
 function readUInt64LE(buffer, offset) {
-  const a = BigInt(buffer.readUInt32LE(offset));
-  let b = BigInt(buffer.readUInt32LE(offset + 4));
-  b <<= 32n;
-  verifuint(b + a, (10n ** 18n) - 1n);
+  const a = bn(buffer.readUInt32LE(offset));
+  let b = bn(buffer.readUInt32LE(offset + 4));
+  b <<= bn(32);
+  verifuint(b + a, (bn(10) ** bn(18)) - bn(1));
   return b + a;
 }
 exports.readUInt64LE = readUInt64LE;
 function writeUInt64LE(buffer, value, offset) {
-  verifuint(value, (10n ** 18n) - 1n);
-  buffer.writeUInt32LE(parseInt(value & 0xffffffffn), offset);
-  buffer.writeUInt32LE(parseInt(value >> 32n), offset + 4);
+  verifuint(value, (bn(10) ** bn(18)) - bn(1));
+  buffer.writeUInt32LE(parseInt(value & bn(0xffffffff)), offset);
+  buffer.writeUInt32LE(parseInt(value >> bn(32)), offset + 4);
   return offset + 8;
 }
 exports.writeUInt64LE = writeUInt64LE;
@@ -150,3 +151,4 @@ class BufferReader {
   }
 }
 exports.BufferReader = BufferReader;
+
