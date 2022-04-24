@@ -7,7 +7,7 @@ const bscript = require('../script');
 const types_1 = require('../types');
 const lazy = require('./lazy');
 const bs58check = require('bs58check');
-const Buffer = require('buffer').Buffer;
+const Buffer = require('safe-buffer').Buffer;
 const OPS = bscript.OPS;
 // input: {signature} {pubkey}
 // output: OP_DUP OP_HASH160 {hash160(pubkey)} OP_EQUALVERIFY OP_CHECKSIG

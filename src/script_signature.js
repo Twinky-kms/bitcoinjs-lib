@@ -3,7 +3,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 exports.encode = exports.decode = void 0;
 const bip66 = require('./bip66');
 const types = require('./types');
-const Buffer = require('buffer').Buffer;
+const Buffer = require('safe-buffer').Buffer;
 const { typeforce } = types;
 const ZERO = Buffer.alloc(1, 0);
 function toDER(x) {

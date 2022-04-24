@@ -6,7 +6,7 @@ const bcrypto = require('./crypto');
 const merkle_1 = require('./merkle');
 const transaction_1 = require('./transaction');
 const types = require('./types');
-const Buffer = require('buffer').Buffer;
+const Buffer = require('safe-buffer').Buffer;
 const { typeforce } = types;
 const errorMerkleNoTxes = new TypeError(
   'Cannot compute merkle root for zero transactions',

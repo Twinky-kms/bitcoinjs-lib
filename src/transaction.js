@@ -6,7 +6,7 @@ const bcrypto = require('./crypto');
 const bscript = require('./script');
 const script_1 = require('./script');
 const types = require('./types');
-const Buffer = require('buffer').Buffer;
+const Buffer = require('safe-buffer').Buffer;
 const { typeforce } = types;
 function varSliceSize(someScript) {
   const length = someScript.length;

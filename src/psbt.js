@@ -11,7 +11,7 @@ const networks_1 = require('./networks');
 const payments = require('./payments');
 const bscript = require('./script');
 const transaction_1 = require('./transaction');
-const Buffer = require('buffer').Buffer;
+const Buffer = require('safe-buffer').Buffer;
 /**
  * These are the default arguments for a Psbt instance.
  */

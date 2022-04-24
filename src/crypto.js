@@ -2,7 +2,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.taggedHash = exports.hash256 = exports.hash160 = exports.sha256 = exports.sha1 = exports.ripemd160 = void 0;
 const createHash = require('create-hash');
-const Buffer = require('buffer').Buffer;
+const Buffer = require('safe-buffer').Buffer;
 function ripemd160(buffer) {
   try {
     return createHash('rmd160')
