@@ -12,16 +12,6 @@ function p2pk(a, opts) {
   if (!a.input && !a.output && !a.pubkey && !a.input && !a.signature)
     throw new TypeError('Not enough data');
   opts = Object.assign({ validate: true }, opts || {});
-  (0, types_1.typeforce)(
-    {
-      network: types_1.typeforce.maybe(types_1.typeforce.Object),
-      output: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-      pubkey: types_1.typeforce.maybe(types_1.isPoint),
-      signature: types_1.typeforce.maybe(bscript.isCanonicalScriptSignature),
-      input: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-    },
-    a,
-  );
   const _chunks = lazy.value(() => {
     return bscript.decompile(a.input);
   });

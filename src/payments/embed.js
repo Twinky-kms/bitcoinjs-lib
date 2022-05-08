@@ -16,16 +16,6 @@ function stacksEqual(a, b) {
 function p2data(a, opts) {
   if (!a.data && !a.output) throw new TypeError('Not enough data');
   opts = Object.assign({ validate: true }, opts || {});
-  (0, types_1.typeforce)(
-    {
-      network: types_1.typeforce.maybe(types_1.typeforce.Object),
-      output: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-      data: types_1.typeforce.maybe(
-        types_1.typeforce.arrayOf(types_1.typeforce.Buffer),
-      ),
-    },
-    a,
-  );
   const network = a.network || networks_1.bitcoin;
   const o = { name: 'embed', network };
   lazy.prop(o, 'output', () => {
@@ -41,8 +31,6 @@ function p2data(a, opts) {
     if (a.output) {
       const chunks = bscript.decompile(a.output);
       if (chunks[0] !== OPS.OP_RETURN) throw new TypeError('Output is invalid');
-      if (!chunks.slice(1).every(types_1.typeforce.Buffer))
-        throw new TypeError('Output is invalid');
       if (a.data && !stacksEqual(a.data, o.data))
         throw new TypeError('Data mismatch');
     }

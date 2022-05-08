@@ -14,7 +14,6 @@ const scriptNumber = require('./script_number');
 const scriptSignature = require('./script_signature');
 const types = require('./types');
 const Buffer = require('safe-buffer').Buffer;
-const { typeforce } = types;
 const OP_INT_BASE = ops_1.OPS.OP_RESERVED; // OP_1 - 1
 function isOPInt(value) {
   return (
@@ -49,7 +48,6 @@ function singleChunkIsBuffer(buf) {
 function compile(chunks) {
   // TODO: remove me
   if (chunksIsBuffer(chunks)) return chunks;
-  typeforce(types.Array, chunks);
   const bufferSize = chunks.reduce((accum, chunk) => {
     // data chunk
     if (singleChunkIsBuffer(chunk)) {
@@ -90,7 +88,6 @@ exports.compile = compile;
 function decompile(buffer) {
   // TODO: remove me
   if (chunksIsArray(buffer)) return buffer;
-  typeforce(types.Buffer, buffer);
   const chunks = [];
   let i = 0;
   while (i < buffer.length) {
@@ -140,12 +137,10 @@ function toASM(chunks) {
 }
 exports.toASM = toASM;
 function fromASM(asm) {
-  typeforce(types.String, asm);
   return compile(
     asm.split(' ').map(chunkStr => {
       // opcode?
       if (ops_1.OPS[chunkStr] !== undefined) return ops_1.OPS[chunkStr];
-      typeforce(types.Hex, chunkStr);
       // data!
       return Buffer.from(chunkStr, 'hex');
     }),
@@ -154,7 +149,6 @@ function fromASM(asm) {
 exports.fromASM = fromASM;
 function toStack(chunks) {
   chunks = decompile(chunks);
-  typeforce(isPushOnly, chunks);
   return chunks.map(op => {
     if (singleChunkIsBuffer(op)) return op;
     if (op === ops_1.OPS.OP_0) return Buffer.allocUnsafe(0);

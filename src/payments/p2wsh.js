@@ -35,27 +35,6 @@ function p2wsh(a, opts) {
   if (!a.address && !a.hash && !a.output && !a.redeem && !a.witness)
     throw new TypeError('Not enough data');
   opts = Object.assign({ validate: true }, opts || {});
-  (0, types_1.typeforce)(
-    {
-      network: types_1.typeforce.maybe(types_1.typeforce.Object),
-      address: types_1.typeforce.maybe(types_1.typeforce.String),
-      hash: types_1.typeforce.maybe(types_1.typeforce.BufferN(32)),
-      output: types_1.typeforce.maybe(types_1.typeforce.BufferN(34)),
-      redeem: types_1.typeforce.maybe({
-        input: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-        network: types_1.typeforce.maybe(types_1.typeforce.Object),
-        output: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-        witness: types_1.typeforce.maybe(
-          types_1.typeforce.arrayOf(types_1.typeforce.Buffer),
-        ),
-      }),
-      input: types_1.typeforce.maybe(types_1.typeforce.BufferN(0)),
-      witness: types_1.typeforce.maybe(
-        types_1.typeforce.arrayOf(types_1.typeforce.Buffer),
-      ),
-    },
-    a,
-  );
   const _address = lazy.value(() => {
     const result = bech32_1.bech32.decode(a.address);
     const version = result.words.shift();

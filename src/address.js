@@ -8,7 +8,6 @@ const types = require('./types');
 const bech32_1 = require('bech32');
 const bs58check = require('bs58check');
 const Buffer = require('safe-buffer').Buffer;
-const { typeforce } = types;
 const FUTURE_SEGWIT_MAX_SIZE = 40;
 const FUTURE_SEGWIT_MIN_SIZE = 2;
 const FUTURE_SEGWIT_MAX_VERSION = 16;
@@ -70,7 +69,6 @@ function fromBech32(address) {
 }
 exports.fromBech32 = fromBech32;
 function toBase58Check(hash, version) {
-  typeforce(types.tuple(types.Hash160bit, types.UInt8), arguments);
   const payload = Buffer.allocUnsafe(21);
   payload.writeUInt8(version, 0);
   hash.copy(payload, 1);

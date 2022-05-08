@@ -30,22 +30,6 @@ function p2ms(a, opts) {
       (opts.allowIncomplete && x === OPS.OP_0) !== undefined
     );
   }
-  (0, types_1.typeforce)(
-    {
-      network: types_1.typeforce.maybe(types_1.typeforce.Object),
-      m: types_1.typeforce.maybe(types_1.typeforce.Number),
-      n: types_1.typeforce.maybe(types_1.typeforce.Number),
-      output: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-      pubkeys: types_1.typeforce.maybe(
-        types_1.typeforce.arrayOf(types_1.isPoint),
-      ),
-      signatures: types_1.typeforce.maybe(
-        types_1.typeforce.arrayOf(isAcceptableSignature),
-      ),
-      input: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-    },
-    a,
-  );
   const network = a.network || networks_1.bitcoin;
   const o = { network };
   let chunks = [];

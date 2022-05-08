@@ -7,7 +7,6 @@ const bscript = require('./script');
 const script_1 = require('./script');
 const types = require('./types');
 const Buffer = require('safe-buffer').Buffer;
-const { typeforce } = types;
 function varSliceSize(someScript) {
   const length = someScript.length;
   return bufferutils_1.varuint.encodingLength(length) + length;
@@ -96,7 +95,6 @@ class Transaction {
     return Transaction.fromBuffer(Buffer.from(hex, 'hex'), false);
   }
   static isCoinbaseHash(buffer) {
-    typeforce(types.Hash256bit, buffer);
     for (let i = 0; i < 32; ++i) {
       if (buffer[i] !== 0) return false;
     }
@@ -108,15 +106,6 @@ class Transaction {
     );
   }
   addInput(hash, index, sequence, scriptSig) {
-    typeforce(
-      types.tuple(
-        types.Hash256bit,
-        types.UInt32,
-        types.maybe(types.UInt32),
-        types.maybe(types.Buffer),
-      ),
-      arguments,
-    );
     if (types.Null(sequence)) {
       sequence = Transaction.DEFAULT_SEQUENCE;
     }
@@ -132,7 +121,6 @@ class Transaction {
     );
   }
   addOutput(scriptPubKey, value) {
-    typeforce(types.tuple(types.Buffer, types.Satoshi), arguments);
     // Add the output and return the output's index
     return (
       this.outs.push({
@@ -203,10 +191,6 @@ class Transaction {
    * This hash can then be used to sign the provided transaction input.
    */
   hashForSignature(inIndex, prevOutScript, hashType) {
-    typeforce(
-      types.tuple(types.UInt32, types.Buffer, /* types.UInt8 */ types.Number),
-      arguments,
-    );
     // https://github.com/bitcoin/bitcoin/blob/master/src/test/sighash_tests.cpp#L29
     if (inIndex >= this.ins.length) return ONE;
     // ignore OP_CODESEPARATOR
@@ -260,15 +244,6 @@ class Transaction {
   }
   hashForWitnessV1(inIndex, prevOutScripts, values, hashType, leafHash, annex) {
     // https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#common-signature-message
-    typeforce(
-      types.tuple(
-        types.UInt32,
-        typeforce.arrayOf(types.Buffer),
-        typeforce.arrayOf(types.Satoshi),
-        types.UInt32,
-      ),
-      arguments,
-    );
     if (
       values.length !== this.ins.length ||
       prevOutScripts.length !== this.ins.length
@@ -394,10 +369,6 @@ class Transaction {
     );
   }
   hashForWitnessV0(inIndex, prevOutScript, value, hashType) {
-    typeforce(
-      types.tuple(types.UInt32, types.Buffer, types.Satoshi, types.UInt32),
-      arguments,
-    );
     let tbuffer = Buffer.from([]);
     let bufferWriter;
     let hashOutputs = ZERO;
@@ -483,11 +454,9 @@ class Transaction {
     return this.toBuffer(undefined, undefined).toString('hex');
   }
   setInputScript(index, scriptSig) {
-    typeforce(types.tuple(types.Number, types.Buffer), arguments);
     this.ins[index].script = scriptSig;
   }
   setWitness(index, witness) {
-    typeforce(types.tuple(types.Number, [types.Buffer]), arguments);
     this.ins[index].witness = witness;
   }
   __toBuffer(buffer, initialOffset, _ALLOW_WITNESS = false) {

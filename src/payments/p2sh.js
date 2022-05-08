@@ -22,27 +22,6 @@ function p2sh(a, opts) {
   if (!a.address && !a.hash && !a.output && !a.redeem && !a.input)
     throw new TypeError('Not enough data');
   opts = Object.assign({ validate: true }, opts || {});
-  (0, types_1.typeforce)(
-    {
-      network: types_1.typeforce.maybe(types_1.typeforce.Object),
-      address: types_1.typeforce.maybe(types_1.typeforce.String),
-      hash: types_1.typeforce.maybe(types_1.typeforce.BufferN(20)),
-      output: types_1.typeforce.maybe(types_1.typeforce.BufferN(23)),
-      redeem: types_1.typeforce.maybe({
-        network: types_1.typeforce.maybe(types_1.typeforce.Object),
-        output: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-        input: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-        witness: types_1.typeforce.maybe(
-          types_1.typeforce.arrayOf(types_1.typeforce.Buffer),
-        ),
-      }),
-      input: types_1.typeforce.maybe(types_1.typeforce.Buffer),
-      witness: types_1.typeforce.maybe(
-        types_1.typeforce.arrayOf(types_1.typeforce.Buffer),
-      ),
-    },
-    a,
-  );
   let network = a.network;
   if (!network) {
     network = (a.redeem && a.redeem.network) || networks_1.bitcoin;

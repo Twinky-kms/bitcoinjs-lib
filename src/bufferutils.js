@@ -2,13 +2,12 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.BufferReader = exports.BufferWriter = exports.cloneBuffer = exports.reverseBuffer = exports.writeUInt64LE = exports.readUInt64LE = exports.varuint = void 0;
 const types = require('./types');
-const { typeforce } = types;
 const varuint = require('varuint-bitcoin');
 const bn = require('big-integer');
 exports.varuint = varuint;
 // https://github.com/feross/buffer/blob/master/index.js#L1127
 function verifuint(value, max) {
-  if (typeof value !== 'bigint')
+  if (!bn.isInstance(value))
     throw new Error('cannot write a non-bigint as a number');
   if (value < 0)
     throw new Error('specified a negative value for writing an unsigned value');
@@ -55,7 +54,6 @@ class BufferWriter {
   constructor(buffer, offset = 0) {
     this.buffer = buffer;
     this.offset = offset;
-    typeforce(types.tuple(types.Buffer, types.UInt32), [buffer, offset]);
   }
   static withCapacity(size) {
     return new BufferWriter(Buffer.alloc(size));
@@ -105,7 +103,6 @@ class BufferReader {
   constructor(buffer, offset = 0) {
     this.buffer = buffer;
     this.offset = offset;
-    typeforce(types.tuple(types.Buffer, types.UInt32), [buffer, offset]);
   }
   readUInt8() {
     const result = this.buffer.readUInt8(this.offset);

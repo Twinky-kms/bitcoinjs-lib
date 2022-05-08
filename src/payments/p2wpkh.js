@@ -17,21 +17,6 @@ function p2wpkh(a, opts) {
   if (!a.address && !a.hash && !a.output && !a.pubkey && !a.witness)
     throw new TypeError('Not enough data');
   opts = Object.assign({ validate: true }, opts || {});
-  (0, types_1.typeforce)(
-    {
-      address: types_1.typeforce.maybe(types_1.typeforce.String),
-      hash: types_1.typeforce.maybe(types_1.typeforce.BufferN(20)),
-      input: types_1.typeforce.maybe(types_1.typeforce.BufferN(0)),
-      network: types_1.typeforce.maybe(types_1.typeforce.Object),
-      output: types_1.typeforce.maybe(types_1.typeforce.BufferN(22)),
-      pubkey: types_1.typeforce.maybe(types_1.isPoint),
-      signature: types_1.typeforce.maybe(bscript.isCanonicalScriptSignature),
-      witness: types_1.typeforce.maybe(
-        types_1.typeforce.arrayOf(types_1.typeforce.Buffer),
-      ),
-    },
-    a,
-  );
   const _address = lazy.value(() => {
     const result = bech32_1.bech32.decode(a.address);
     const version = result.words.shift();
