@@ -9,22 +9,21 @@ exports.varuint = varuint;
 function verifuint(value, max) {
   if (!bn.isInstance(value))
     throw new Error('cannot write a non-bigint as a number');
-  if (value < 0)
+  if (value.lesser(bn(0)))
     throw new Error('specified a negative value for writing an unsigned value');
-  if (value > max) throw new Error('RangeError: value out of range');
+  if (value.greater(max)) throw new Error('RangeError: value out of range');
 }
 function readUInt64LE(buffer, offset) {
   const a = bn(buffer.readUInt32LE(offset));
-  let b = bn(buffer.readUInt32LE(offset + 4));
-  b <<= bn(32);
-  verifuint(b + a, (bn(10) ** bn(18)) - bn(1));
-  return b + a;
+  let b = bn(buffer.readUInt32LE(offset + 4)).shiftLeft(bn(32));
+  verifuint(b.add(a), (bn(10).pow(bn(18))).subtract(bn(1)));
+  return b.add(a);
 }
 exports.readUInt64LE = readUInt64LE;
 function writeUInt64LE(buffer, value, offset) {
-  verifuint(value, (bn(10) ** bn(18)) - bn(1));
-  buffer.writeUInt32LE(parseInt(value & bn(0xffffffff)), offset);
-  buffer.writeUInt32LE(parseInt(value >> bn(32)), offset + 4);
+  verifuint(value, (bn(10).pow(bn(18))).subtract(bn(1)));
+  buffer.writeUInt32LE(parseInt(value.and(bn(0xffffffff))), offset);
+  buffer.writeUInt32LE(parseInt(value.shiftRight(bn(32))), offset + 4);
   return offset + 8;
 }
 exports.writeUInt64LE = writeUInt64LE;
