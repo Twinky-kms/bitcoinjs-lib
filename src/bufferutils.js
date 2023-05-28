@@ -7,8 +7,9 @@ const bn = require('big-integer');
 exports.varuint = varuint;
 // https://github.com/feross/buffer/blob/master/index.js#L1127
 function verifuint(value, max) {
-//   if (!bn.isInstance(value))
-//     throw new Error('cannot write a non-bigint as a number');
+  value = new bn(value);
+  if (!bn.isInstance(value))
+    throw new Error('cannot write a non-bigint as a number');
   if (value.lesser(bn(0)))
     throw new Error('specified a negative value for writing an unsigned value');
   if (value.greater(max)) throw new Error('RangeError: value out of range');
@@ -21,6 +22,7 @@ function readUInt64LE(buffer, offset) {
 }
 exports.readUInt64LE = readUInt64LE;
 function writeUInt64LE(buffer, value, offset) {
+  value = new bn(value);
   verifuint(value, (bn(10).pow(bn(18))).subtract(bn(1)));
   buffer.writeUInt32LE(parseInt(value.and(bn(0xffffffff))), offset);
   buffer.writeUInt32LE(parseInt(value.shiftRight(bn(32))), offset + 4);
