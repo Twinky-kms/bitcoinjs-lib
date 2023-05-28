@@ -50,7 +50,7 @@
   ],
   "dependencies": {
     "bech32": "^2.0.0",
-    "big-integer": "^1.6.51",
+    "big-integer": "^1.6.40",
     "bip174": "^2.0.1",
     "bs58check": "^2.1.2",
     "safe-buffer": "^5.2.1",
