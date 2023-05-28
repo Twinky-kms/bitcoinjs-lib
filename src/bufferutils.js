@@ -7,8 +7,8 @@ const bn = require('big-integer');
 exports.varuint = varuint;
 // https://github.com/feross/buffer/blob/master/index.js#L1127
 function verifuint(value, max) {
-  if (!bn.isInstance(value))
-    throw new Error('cannot write a non-bigint as a number');
+//   if (!bn.isInstance(value))
+//     throw new Error('cannot write a non-bigint as a number');
   if (value.lesser(bn(0)))
     throw new Error('specified a negative value for writing an unsigned value');
   if (value.greater(max)) throw new Error('RangeError: value out of range');
